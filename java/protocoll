@@ -1,0 +1,27 @@
+random number	8
+command 	8
+data		16
+datafield 1	8
+datafield 2	8
+[field1
+[field2
+
+
+random		1
+command		1
+data 		4
+packages 	1
+
+
+
+
+
+
+command:
+
+0
+1 = broadcast - info
+2 = shutdown
+3
+4
+5 = login

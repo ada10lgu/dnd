@@ -1,5 +1,7 @@
 package general.connection.packages;
 
+import general.connection.packages.data.BytePackage;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -7,9 +9,9 @@ public class SuperPackage extends Package {
 
 	private BytePackage id;
 	private BytePackage way;
-	private Package load;
+	private OperatorPackage load;
 
-	public SuperPackage(byte id, byte way, Package load) {
+	public SuperPackage(byte id, byte way, OperatorPackage load) {
 		super(SUPER);
 		this.id = new BytePackage(id);
 		this.way = new BytePackage(way);
@@ -27,7 +29,7 @@ public class SuperPackage extends Package {
 			throw new IOException("SuperPackage demands 3 packages");
 		id = (BytePackage) generateFromStream(is);
 		way = (BytePackage) generateFromStream(is);
-		load = generateFromStream(is);
+		load = (OperatorPackage) generateFromStream(is);
 	}
 
 	@Override
@@ -45,7 +47,7 @@ public class SuperPackage extends Package {
 		return "SuperPackage [id="+id.toString()+", way="+way.toString()+"] Load="+load.toString();
 	}
 	
-	public Package getLoad() {
+	public OperatorPackage getLoad() {
 		return load;
 	}
 	

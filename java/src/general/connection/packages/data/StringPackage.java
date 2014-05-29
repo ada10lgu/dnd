@@ -1,4 +1,6 @@
-package general.connection.packages;
+package general.connection.packages.data;
+
+import general.connection.packages.Package;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +14,7 @@ public class StringPackage extends Package {
 		this.s = s;
 	}
 
-	protected StringPackage(InputStream is) throws IOException {
+	public StringPackage(InputStream is) throws IOException {
 		super(STRING);
 		int size = read(is);
 		byte[] string = new byte[size];

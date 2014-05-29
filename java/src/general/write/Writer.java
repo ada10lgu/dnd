@@ -17,7 +17,7 @@ public abstract class Writer {
 
 	}
 
-	protected void write(String s) {
+	public void write(String s) {
 		if (w.isEmpty())
 			buffer.add(s);
 		for (Writeable w : this.w) {

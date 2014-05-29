@@ -1,5 +1,6 @@
 package server.model.connection;
 
+import general.connection.connection.Connection;
 import general.write.Writer;
 
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class Server extends Writer {
 				while (!isInterrupted() && !ss.isClosed()) {
 					write("Waiting for connection...");
 					Socket s = ss.accept();
-					new Connection(s,m).addWriteablesFrom(Server.this);;
+					Connection.createConnection(s, m).addWriteablesFrom(Server.this);
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

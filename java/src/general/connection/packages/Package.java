@@ -1,5 +1,13 @@
 package general.connection.packages;
 
+import general.connection.packages.data.BytePackage;
+import general.connection.packages.data.IntegerPackage;
+import general.connection.packages.data.NullPackage;
+import general.connection.packages.data.StringPackage;
+import general.connection.packages.operator.DataPackage;
+import general.connection.packages.operator.ExitPackage;
+import general.connection.packages.operator.LoginPackage;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -9,7 +17,12 @@ public abstract class Package {
 	public static final byte ACK = 1;
 
 	public static final byte SUPER = 1;
-	public static final byte LOGIN = 5;
+	public static final byte DATA = 3;
+	public static final byte EXIT = 4;
+	
+	public static final byte LOGIN = 10;
+	
+	public static final byte INT = 20;
 	public static final byte STRING = 21;
 	public static final byte BYTE = 22;
 	public static final byte NULL = 41;
@@ -23,8 +36,14 @@ public abstract class Package {
 		switch (command) {
 		case SUPER:
 			return new SuperPackage(is);
+		case DATA:
+			return new DataPackage(is);
+		case EXIT:
+			return new ExitPackage(is);
 		case LOGIN:
 			return new LoginPackage(is);
+		case INT:
+			return new IntegerPackage(is);
 		case STRING:
 			return new StringPackage(is);
 		case BYTE:
@@ -36,7 +55,7 @@ public abstract class Package {
 		}
 	}
 
-	protected static byte read(InputStream is) throws IOException {
+	protected final static byte read(InputStream is) throws IOException {
 		int i = is.read();
 		if (i == -1)
 			throw new IOException("Interupted stream!");
@@ -51,7 +70,7 @@ public abstract class Package {
 
 	protected abstract Package[] getPackages();
 
-	public byte[] getBytes() {
+	public final byte[] getBytes() {
 		int size = 2 + getData().length + 1;
 		for (Package p : getPackages())
 			size += p.getBytes().length;
@@ -68,7 +87,7 @@ public abstract class Package {
 		return data;
 	}
 
-	public boolean isCommand(byte command) {
+	public final boolean isCommand(byte command) {
 		return command == this.command;
 	}
 

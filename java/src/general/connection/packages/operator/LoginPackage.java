@@ -1,9 +1,16 @@
-package general.connection.packages;
+package general.connection.packages.operator;
+
+import general.GenericModel;
+import general.connection.connection.Connection;
+import general.connection.packages.OperatorPackage;
+import general.connection.packages.Package;
+import general.connection.packages.data.IntegerPackage;
+import general.connection.packages.data.StringPackage;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class LoginPackage extends Package {
+public class LoginPackage extends OperatorPackage {
 
 	private StringPackage user;
 	private StringPackage pass;
@@ -14,7 +21,7 @@ public class LoginPackage extends Package {
 		pass = new StringPackage(hash);
 	}
 
-	protected LoginPackage(InputStream is) throws IOException {
+	public LoginPackage(InputStream is) throws IOException {
 		super(LOGIN);
 		byte data = read(is);
 		if (data != 0)
@@ -41,11 +48,12 @@ public class LoginPackage extends Package {
 		return "Login: " + user.toString() + ", " + pass.toString();
 	}
 
-	public String getUsername() {
-		return user.toString();
-	}
 
-	public String getPassword() {
-		return pass.toString();
+	@Override
+	public OperatorPackage perform(GenericModel model,Connection c) {
+		int id = model.login(user.toString(),pass.toString(),c);
+		
+		IntegerPackage ip = new IntegerPackage(id);
+		return new DataPackage(ip);		
 	}
 }

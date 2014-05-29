@@ -1,6 +1,7 @@
 package server.model;
 
-import general.connection.packages.LoginPackage;
+import general.GenericModel;
+import general.connection.connection.Connection;
 import general.write.Writer;
 
 import java.io.File;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 
 import server.model.database.Database;
 
-public class Model extends Writer {
+public class Model extends Writer implements GenericModel {
 
 	private final static String SQL_CONNECTION = "sql/databaseconnection.con";
 
@@ -34,22 +35,22 @@ public class Model extends Writer {
 		}
 
 	}
-
-	public int login(LoginPackage p) {
-		String username = p.getUsername();
-		String hash = p.getPassword();
+	public int login(String username, String hash,Connection c) {
 		String sql = "SELECT id FROM users WHERE username = ? AND password = ?";
 		try {
 			ResultSet res = db.query(sql, username, hash);
 
 			if (res.next()) {
-				return res.getInt("id");
+				int id = res.getInt("id");
+				c.write("Login successfull");
+				c.write("id="+id);
+				return id;
 			}
 
 		} catch (SQLException e) {
 			printSQLError("Could not log in user...", sql, e);
 		}
-
+		c.write("Login failed");
 		return -1;
 	}
 
@@ -61,5 +62,11 @@ public class Model extends Writer {
 		System.err.println(sql);
 		e.printStackTrace();
 		System.err.println("-----------------");
+	}
+
+	@Override
+	public void exit(Connection c) {
+		throw new UnsupportedOperationException();
+		
 	}
 }

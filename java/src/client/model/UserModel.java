@@ -1,26 +1,33 @@
 package client.model;
 
-import general.connection.packages.*;
-import general.connection.packages.Package;
+import general.GenericModel;
+import general.connection.connection.Connection;
+import general.connection.packages.operator.LoginPackage;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import client.model.connection.Client;
+public class UserModel implements GenericModel {
 
-public class UserModel {
+	private Connection c;
 
-	private Client c;
-
-	public UserModel() {
-		c = new Client("localhost", 12345);
+	public UserModel() throws IOException {
+		
+		c = Connection.createConnection("localhost", 12345,this);
 	}
 
+	public int login(String username, String password,Connection c) {
+		throw new UnsupportedOperationException();
+	}
+	
 	public boolean login(String username, String password) {
 		password = hash(password);
-		LoginPackage l = new LoginPackage(username, password);
+		LoginPackage lp = new LoginPackage(username, password);
 		
-		c.write(new SuperPackage((byte)5, Package.SEND, l));
+		byte id =c.write(lp);
+		//DataPackage dp = (DataPackage) c.getResponse(id);
+		//System.out.println(dp);
 		return false;
 	}
 
@@ -46,8 +53,10 @@ public class UserModel {
 		return result;
 	}
 
-	public void close() {
-		c.close();
-
+	@Override
+	public void exit(Connection c) {
+		this.c.close();
+		
 	}
+
 }

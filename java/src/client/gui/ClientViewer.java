@@ -3,8 +3,10 @@ package client.gui;
 import java.awt.BorderLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import client.gui.user.login.LoginPane;
 import client.model.UserModel;
@@ -13,7 +15,12 @@ import client.model.UserModel;
 public class ClientViewer extends JFrame implements WindowListener {
 
 	public static void main(String[] args) {
-		new ClientViewer(new UserModel());
+		try {
+			new ClientViewer(new UserModel());
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,
+					"Could not connect to server, program terminated!");
+		}
 	}
 
 	private UserModel m;
@@ -24,7 +31,7 @@ public class ClientViewer extends JFrame implements WindowListener {
 		setSize(500, 300);
 		addWindowListener(this);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
+
 		add(new LoginPane(m), BorderLayout.CENTER);
 
 		setVisible(true);
@@ -40,7 +47,7 @@ public class ClientViewer extends JFrame implements WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		m.close();
+		m.exit(null);
 		System.exit(0);
 	}
 

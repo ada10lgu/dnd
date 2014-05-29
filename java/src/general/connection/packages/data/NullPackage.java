@@ -1,4 +1,6 @@
-package general.connection.packages;
+package general.connection.packages.data;
+
+import general.connection.packages.Package;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +11,7 @@ public class NullPackage extends Package {
 		super(NULL);
 	}
 
-	protected NullPackage(InputStream is) throws IOException {
+	public NullPackage(InputStream is) throws IOException {
 		super(NULL);
 		byte data = read(is);
 		if (data != 0)

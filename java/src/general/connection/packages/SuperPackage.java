@@ -20,7 +20,7 @@ public class SuperPackage extends Package {
 	}
 
 	protected SuperPackage(InputStream is) throws IOException {
-		super(LOGIN);
+		super(SUPER);
 		byte data = read(is);
 		if (data != 0)
 			throw new IOException("SuperPackage does not support datafield");

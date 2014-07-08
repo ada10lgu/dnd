@@ -7,6 +7,7 @@ import general.connection.packages.Package;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 public class DataPackage extends OperatorPackage {
 
@@ -44,5 +45,7 @@ public class DataPackage extends OperatorPackage {
 	protected Package[] getPackages() {
 		return packages;
 	}
+	
+	
 
 }

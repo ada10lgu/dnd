@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import model.DNDServerModel;
+import model.DNDModel;
 import model.general.BlockingMap;
 import model.general.BlockingQueue;
 import model.general.IDList;
@@ -15,14 +15,14 @@ import model.network.packages.SuperPackage;
 
 public class Connection {
 
-	private DNDServerModel model;
+	private DNDModel model;
 	private Socket socket;
 	private BlockingQueue<SuperPackage> inbox;
 	private BlockingQueue<SuperPackage> outbox;
 	private BlockingMap<Byte, SuperPackage> responses;
 	private IDList ids;
 
-	public Connection(DNDServerModel model, Socket socket) {
+	public Connection(DNDModel model, Socket socket) {
 		this.socket = socket;
 		this.model = model;
 		System.out.println(socket);

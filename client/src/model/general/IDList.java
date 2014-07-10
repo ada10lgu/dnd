@@ -14,6 +14,7 @@ public class IDList {
 		history=new HashSet<>();
 		ids = new ArrayList<>();
 		r = new Random();
+		generateIDs();
 	}
 	
 	public byte getID() {
@@ -29,7 +30,7 @@ public class IDList {
 	private void generateIDs() {
 		for (int i = 0; i < 10; i++) {
 			byte value = generateID();
-			while (!history.contains(value))
+			while (history.contains(value))
 				value++;
 			history.add(value);
 			ids.add(value);

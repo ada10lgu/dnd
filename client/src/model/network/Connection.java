@@ -37,9 +37,10 @@ public class Connection {
 		new Receiver().start();
 	}
 
-	public synchronized int sendPackage(OperatorPackage op) {
+	public synchronized byte sendPackage(OperatorPackage op) {
 		byte id = ids.getID();
 		SuperPackage sp = new SuperPackage(id, op);
+		System.out.println(sp);
 		outbox.offer(sp);
 		return id;
 	}
@@ -50,7 +51,7 @@ public class Connection {
 		return sp.getLoad();
 	}
 
-	private synchronized void close() {
+	public synchronized void close() {
 		try {
 			if (!socket.isClosed()) {
 				System.out

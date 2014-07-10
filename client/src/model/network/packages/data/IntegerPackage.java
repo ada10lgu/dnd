@@ -37,5 +37,9 @@ public class IntegerPackage extends Package {
 	public String toString() {
 		return i.toString();
 	}
+	
+	public int toInt() {
+		return i;
+	}
 
 }

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import model.network.packages.data.BytePackage;
 import model.network.packages.data.IntegerPackage;
 import model.network.packages.data.StringPackage;
+import model.network.packages.operator.DataPackage;
 import model.network.packages.operator.LoginPackage;
 
 public abstract class Package {
@@ -32,6 +33,8 @@ public abstract class Package {
 		switch (command) {
 		case SUPER:
 			return new SuperPackage(is);
+		case DATA:
+			return new DataPackage(is);
 		case LOGIN:
 			return new LoginPackage(is);
 		case INT:

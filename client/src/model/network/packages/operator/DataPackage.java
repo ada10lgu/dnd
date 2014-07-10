@@ -30,7 +30,7 @@ public class DataPackage extends OperatorPackage {
 	}
 
 	@Override
-	protected Package[] getPackages() {
+	public Package[] getPackages() {
 		return packages;
 	}
 

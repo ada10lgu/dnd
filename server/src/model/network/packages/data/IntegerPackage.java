@@ -38,4 +38,8 @@ public class IntegerPackage extends Package {
 		return i.toString();
 	}
 
+	public int toInt() {
+		return i;
+	}
+
 }

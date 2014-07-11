@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import model.database.Database;
 import model.network.Server;
+import model.network.packages.data.StringPackage;
+import model.network.packages.operator.DataPackage;
 import model.settings.Settings;
 
 public class DNDServerModel {
@@ -37,6 +39,33 @@ public class DNDServerModel {
 			db.printSQLError("Could not log in user...", sql, e);
 		}
 		return -1;
+	}
+
+	public DataPackage getUser(int who) {
+		String username = "";
+		String name = "";
+		String email = "";
+		
+		try {
+			ResultSet rs = db.query("SELECT username, name,email FROM users WHERE id = ? LIMIT 1;",who);
+			if (rs.next()) {
+				username = rs.getString("username");
+				name = rs.getString("name");
+				email = rs.getString("email");
+				
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		StringPackage spUser = new StringPackage(username);
+		StringPackage spName = new StringPackage(name);
+		StringPackage spEmail = new StringPackage(email);
+		
+		
+		return new DataPackage(spUser,spName,spEmail);
 	}
 
 }

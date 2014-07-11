@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import model.network.Connection;
+import model.network.packages.OperatorPackage;
 import model.network.packages.data.IntegerPackage;
 import model.network.packages.operator.DataPackage;
 import model.network.packages.operator.LoginPackage;
@@ -16,6 +17,8 @@ public class DNDModel {
 
 	private Connection conn;
 	private Settings settings;
+
+	private User user;
 
 	public DNDModel(Settings settings) throws UnknownHostException, IOException {
 		this.settings = settings;
@@ -38,15 +41,14 @@ public class DNDModel {
 	public boolean login(String user, String pass) {
 		String hash = hash(pass);
 		LoginPackage lp = new LoginPackage(user, hash);
-		byte id = conn.sendPackage(lp);
-		DataPackage dp = (DataPackage) conn.getResponse(id);
+		DataPackage dp = (DataPackage) sendAndWait(lp);
 		IntegerPackage ip = (IntegerPackage) dp.getPackages()[0];
-		if (ip.toInt() == -1) {
-			System.out.println("Login failed!");
+
+		int id = ip.toInt();
+		if (id == -1) {
 			return false;
 		} else {
-			System.out.println("Login successfull!");
-			System.out.println("ID: " + ip.toInt());
+			this.user = new User(this, id);
 			return true;
 		}
 	}
@@ -54,5 +56,14 @@ public class DNDModel {
 	public void close() {
 		conn.close();
 		System.exit(0);
+	}
+
+	public synchronized OperatorPackage sendAndWait(OperatorPackage op) {
+		byte id = conn.sendPackage(op);
+		return conn.getResponse(id);
+	}
+
+	public User getUser() {
+		return user;
 	}
 }

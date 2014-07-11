@@ -64,13 +64,17 @@ public class LoginPanel extends JPanel implements ActionListener {
 			String password = new String(pass.getPassword());
 
 			text.println("Trying to login.");
-			
+
 			if (model.login(username, password)) {
 				try {
 					Thread.sleep(300);
 				} catch (InterruptedException e1) {
 				}
 				text.println("Login successfull!");
+
+				String name = model.getUser().getName();
+				text.println("Welcome " + name + "!");
+
 			} else {
 				try {
 					Thread.sleep(2500);

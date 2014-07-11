@@ -7,6 +7,7 @@ import model.network.packages.data.BytePackage;
 import model.network.packages.data.IntegerPackage;
 import model.network.packages.data.StringPackage;
 import model.network.packages.operator.LoginPackage;
+import model.network.packages.operator.UserRequest;
 
 public abstract class Package {
 	public static final byte SUPER = 1;
@@ -15,7 +16,8 @@ public abstract class Package {
 	public static final byte EXIT = 4;
 
 	public static final byte LOGIN = 10;
-
+	public static final byte USER_REQUEST = 11;
+	
 	public static final byte INT = 20;
 	public static final byte STRING = 21;
 	public static final byte BYTE = 22;
@@ -34,6 +36,8 @@ public abstract class Package {
 			return new SuperPackage(is);
 		case LOGIN:
 			return new LoginPackage(is);
+		case USER_REQUEST:
+			return new UserRequest(is);
 		case INT:
 			return new IntegerPackage(is);
 		case STRING:

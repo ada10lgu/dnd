@@ -18,10 +18,13 @@ public class WindowInWindow {
 		frame.setPreferredSize(new Dimension(600, 400));
 		frame.setLayout(new BorderLayout());
 		frame.add(lpane, BorderLayout.CENTER);
+		
 		lpane.setBounds(0, 0, 600, 400);
+		
 		panelBlue.setBackground(Color.BLUE);
 		panelBlue.setBounds(0, 0, 600, 400);
 		panelBlue.setOpaque(true);
+		
 		panelGreen.setBackground(Color.GREEN);
 		panelGreen.setBounds(200, 100, 100, 100);
 		panelGreen.setOpaque(true);

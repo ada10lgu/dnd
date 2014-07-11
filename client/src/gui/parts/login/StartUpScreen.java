@@ -1,33 +1,59 @@
-package gui.parts.info;
+package gui.parts.login;
 
-import gui.parts.login.LoginPanel;
+import gui.GUI;
+import gui.parts.info.TextScreen;
 
+import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
 import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 
 import model.DNDModel;
 import model.settings.Settings;
 
 @SuppressWarnings("serial")
-public class StartUpScreen extends JLayeredPane {
+public class StartUpScreen extends JPanel {
 
 	private final int LOGIN_WIDTH = 300;
 	private final int LOGIN_HEIGHT = 100;
 
+	private JLayeredPane mainContainer;
 	private TextScreen text;
-	private Rectangle r;
+	private LoginPanel lp;
+	private GUI gui;
+	
+	public StartUpScreen(GUI gui) {
+		this.gui = gui;
+		setLayout(new BorderLayout());
 
-	public StartUpScreen(Rectangle r) {
-		setBounds(r);
-		this.r = r;
+		mainContainer = new JLayeredPane();
+
+		System.out.println(getBounds());
 		text = new TextScreen();
-		text.setBounds(getBounds());
-		add(text, DEFAULT_LAYER);
-		text.println("Welcome!");
+		text.setBounds(10, 10, 200, 200);
+		mainContainer.add(text, JLayeredPane.DEFAULT_LAYER);
+		mainContainer.setBounds(0, 0, 500, 300);
+		add(mainContainer);
 		new UpStarter().start();
+	}
+
+	@Override
+	public void repaint() {
+		if (mainContainer != null) {
+			mainContainer.setBounds(getBounds());
+			text.setBounds(getBounds());
+		}
+		if (lp != null) {
+			Rectangle r = getBounds();
+			r.x = r.width / 2 - LOGIN_WIDTH / 2;
+			r.y = r.height / 3 - LOGIN_HEIGHT / 2;
+			r.width = LOGIN_WIDTH;
+			r.height = LOGIN_HEIGHT;
+			lp.setBounds(r);
+		}
 	}
 
 	private void exit(TextScreen text) {
@@ -49,7 +75,6 @@ public class StartUpScreen extends JLayeredPane {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		try {
@@ -71,7 +96,6 @@ public class StartUpScreen extends JLayeredPane {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		try {
@@ -92,24 +116,18 @@ public class StartUpScreen extends JLayeredPane {
 			DNDModel model;
 
 			if ((s = loadSettings(text)) != null) {
-
 				if ((model = loadModel(text, s)) != null) {
 					text.println("Proceding to login.");
-
-					LoginPanel lp = new LoginPanel(model,text);
-
-					lp.setBounds(r.width / 2 - LOGIN_WIDTH / 2, r.height / 3
-							- LOGIN_HEIGHT / 2, LOGIN_WIDTH, LOGIN_HEIGHT);
-					add(lp, POPUP_LAYER);
-
+					lp = new LoginPanel(gui, model, text);
+					mainContainer.add(lp,JLayeredPane.PALETTE_LAYER);
+					repaint();
+					updateUI();
 				} else {
 					exit(text);
 				}
-
 			} else {
 				exit(text);
 			}
-
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package gui.parts.login;
 
+import gui.GUI;
 import gui.parts.info.TextScreen;
 
 import java.awt.GridLayout;
@@ -17,13 +18,15 @@ import model.DNDModel;
 @SuppressWarnings("serial")
 public class LoginPanel extends JPanel implements ActionListener {
 
+	private GUI gui;
 	private JTextField user;
 	private JPasswordField pass;
 	private JButton button;
 	private DNDModel model;
 	private TextScreen text;
 
-	public LoginPanel(DNDModel model, TextScreen text) {
+	public LoginPanel(GUI gui, DNDModel model, TextScreen text) {
+		this.gui = gui;
 		this.model = model;
 		this.text = text;
 		setOpaque(true);
@@ -74,7 +77,10 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 				String name = model.getUser().getName();
 				text.println("Welcome " + name + "!");
-
+				gui.showLogin(false);
+				
+				user.setText("");
+				pass.setText("");
 			} else {
 				try {
 					Thread.sleep(2500);

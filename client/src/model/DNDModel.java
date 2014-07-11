@@ -66,4 +66,10 @@ public class DNDModel {
 	public User getUser() {
 		return user;
 	}
+
+	public void logout() {
+
+	}
+
+
 }
